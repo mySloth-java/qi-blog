@@ -12,6 +12,7 @@ spring:
     password: mysql8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
 #  redis:
 #    host: www.xtijie.top
 #    port: 6379
@@ -22,10 +23,12 @@ spring:
 #        max-idle: 10
 #        min-idle: 1
 #        time-between-eviction-runs: 10s
-  #  配置mvc映射匹配策略
+
+#    配置mvc映射匹配策略
 #  mvc:
 #    pathmatch:
 #      matching-strategy: ant_path_matcher
+
 # 阿里云
 #ALiYun_OSS:
 #  accessKey: LTAI5tGmPvZjKtmQ8y4ti5Jd
