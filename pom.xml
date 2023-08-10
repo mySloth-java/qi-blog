@@ -75,6 +75,13 @@
                 <artifactId>springfox-swagger2</artifactId>
                 <version>2.9.2</version>
             </dependency>
+
+            <!--TODO 根据使用的东西简化，减少引入，减轻负担-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.8.11</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

@@ -12,4 +12,16 @@
             limit #{pageNum},#{pageSize}
     </select>
 
+    <!--查询文章数目 Integer GetArticlesCount();-->
+    <select id="GetArticlesCount" resultType="integer">
+        select count(content) from articles
+    </select>
+
+    <!--查询文章详情 Articles GetArticleById(@Param("id") Long id);-->
+    <select id="GetArticleById" resultType="com.cg.entity.Articles">
+        select *
+            from articles
+        where id = #{id}
+    </select>
+
 </mapper>

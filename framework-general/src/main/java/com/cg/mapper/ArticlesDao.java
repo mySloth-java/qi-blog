@@ -13,5 +13,11 @@ public interface ArticlesDao {
     List<Articles> GetArticlesByPage(@Param("pageNum") Integer pageNum,
                                    @Param("pageSize") Integer pageSize);
 
+    //文章总数目
+    Integer GetArticlesCount();
+
+    //文章详情
+    Articles GetArticleById(@Param("id") Long id);
+
 
 }
