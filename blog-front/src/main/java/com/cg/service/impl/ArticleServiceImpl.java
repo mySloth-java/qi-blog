@@ -40,11 +40,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ResponseResult GetArticlesByPage(Integer pageNum, Integer pageSize) {
         //1、先查询缓存有没有分页的文章数据
-        String articlesJSON = stringRedisTemplate.opsForValue().get(ARTICLE_PAGE);
+//        String articlesJSON = stringRedisTemplate.opsForValue().get(ARTICLE_PAGE);
         //非空查询缓存
-        if(!articlesJSON.isEmpty()){
-            Articles article = JSONUtil.toBean(articlesJSON, Articles.class);
-        }
+//        if(articlesJSON != null && !articlesJSON.isEmpty()){
+//            Articles article = JSONUtil.toBean(articlesJSON, Articles.class);
+//        }
 
         //2、没有缓存查询数据库并添加到缓存中
         pageNum = (pageNum - 1) * pageSize;
@@ -53,7 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
         for (Articles article :
                 articles) {
             String articleToJson = JSONUtil.toJsonPrettyStr(article);
-            stringRedisTemplate.opsForValue().set(ARTICLE_PAGE+article.getId(),articleToJson);
+//            stringRedisTemplate.opsForValue().set(ARTICLE_PAGE+article.getId(),articleToJson);
         }
 
         Integer articlesCount = articlesDao.GetArticlesCount();
@@ -116,6 +116,28 @@ public class ArticleServiceImpl implements ArticleService {
         return null;
     }
 
+    /**
+     * 文章点赞数增加
+     * TODO 定时刷到数据库里
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult UpdateLikeNumber(Long id) {
+        stringRedisTemplate.opsForHash().increment(ARTICLE_LIKE,id.toString(),1);
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 浏览量增加
+     * @param id 文章标识
+     * @return
+     */
+    @Override
+    public ResponseResult UpdatePreviewNumber(Long id) {
+        stringRedisTemplate.opsForHash().increment(ARTICLE_VIEW,id.toString(),1);
+        return ResponseResult.okResult();
+    }
 
 
 }

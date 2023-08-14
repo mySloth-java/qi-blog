@@ -54,24 +54,33 @@ public class ArticleController {
 
     /**
      * 点赞数增加
-     * @param id
+     * @param id 文章标识
      * @return
      */
     @PostMapping("/likeNumber/{id}")
     public ResponseResult UpdateLikeNumber(@PathVariable("id") Long id){
-        return null;
+        return articleService.UpdateLikeNumber(id);
     }
 
     /**
      * 浏览量增加
-     * @param id
+     * @param id 文章标识
      * @return
      */
     @PostMapping("/previewNumber/{id}")
     public ResponseResult UpdatePreviewNumber(@PathVariable("id") Long id){
-        return null;
+        return articleService.UpdatePreviewNumber(id);
     }
 
+    /**
+     * 文章发布
+     * @param articles 文章实体
+     * @return
+     */
+    @PostMapping("/punish")
+    public ResponseResult AddArticle(Articles articles){
+        return null;
+    }
 
 
 }

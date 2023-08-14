@@ -11,4 +11,8 @@ public interface ArticleService {
     ResponseResult GetArticleById(Long id);
 
     ResponseResult UpdateArticle(Articles articles);
+
+    ResponseResult UpdateLikeNumber(Long id);
+
+    ResponseResult UpdatePreviewNumber(Long id);
 }
