@@ -33,7 +33,7 @@ public class Articles {
     //评论数
     private Long commentNumber;
     //登陆才允许评论(0为否，1为是)
-    private String isComment;
+    private String commentFlag;
 
     //状态标记，是否为草稿(0为草稿，1为非草稿)
     private String statusFlag;
@@ -46,6 +46,10 @@ public class Articles {
     private Date createTime;
     //修改时间
     private Date updateTime;
+    //分类表id
+    private Long classifyId;
+    //用户id
+    private Long userId;
 
 
 }

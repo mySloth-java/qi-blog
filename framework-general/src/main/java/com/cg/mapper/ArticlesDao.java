@@ -19,5 +19,11 @@ public interface ArticlesDao {
     //文章详情
     Articles GetArticleById(@Param("id") Long id);
 
+    //查询所有文章的分类id并去重
+    List<Integer> GetCategoryIds();
+
+    //添加文章
+    Integer AddArticle(Articles articles);
+
 
 }

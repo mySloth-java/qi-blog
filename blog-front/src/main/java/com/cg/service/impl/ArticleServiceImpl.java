@@ -27,6 +27,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticlesDao articlesDao;
 
+    //TODO 根据文章内容识别标签，并存入redis中
+
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
@@ -50,11 +52,11 @@ public class ArticleServiceImpl implements ArticleService {
         pageNum = (pageNum - 1) * pageSize;
         List<Articles> articles = articlesDao.GetArticlesByPage(pageNum, pageSize);
 
-        for (Articles article :
-                articles) {
-            String articleToJson = JSONUtil.toJsonPrettyStr(article);
+//        for (Articles article :
+//                articles) {
+//            String articleToJson = JSONUtil.toJsonPrettyStr(article);
 //            stringRedisTemplate.opsForValue().set(ARTICLE_PAGE+article.getId(),articleToJson);
-        }
+//        }
 
         Integer articlesCount = articlesDao.GetArticlesCount();
 
@@ -117,7 +119,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 文章点赞数增加
+     * TODO 文章点赞数增加
      * TODO 定时刷到数据库里
      * @param id
      * @return
@@ -137,6 +139,23 @@ public class ArticleServiceImpl implements ArticleService {
     public ResponseResult UpdatePreviewNumber(Long id) {
         stringRedisTemplate.opsForHash().increment(ARTICLE_VIEW,id.toString(),1);
         return ResponseResult.okResult();
+    }
+
+    /**
+     * 文章发布
+     * TODO 完全没有任何逻辑
+     * @param articles 文章实体
+     * @return
+     */
+    @Override
+    public ResponseResult AddArticle(Articles articles) {
+        //
+        Integer integer = articlesDao.AddArticle(articles);
+        if(integer == null){
+            //TODO 抛出全局异常
+        }
+
+        return ResponseResult.okResult(integer);
     }
 
 

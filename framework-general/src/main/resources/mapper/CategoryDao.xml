@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cg.mapper.CategoryDao">
+
+    <!--动态id查询分类信息 List<Category> GetCategoryByIds(@Param("ids") List<Integer> ids);-->
+    <select id="GetCategoryByIds" resultType="com.cg.entity.Category">
+        select * from category
+            where id IN
+            <foreach collection="ids" open="(" close=")" item="ids" separator=",">
+                #{ids}
+            </foreach>
+    </select>
+
+</mapper>

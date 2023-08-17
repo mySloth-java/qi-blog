@@ -27,10 +27,21 @@ public class ArticlesVO {
     //评论数
     private Long commentNumber;
 
+    //分类表id
+    private Long classifyId;
+    //用户id
+    private Long userId;
+
     //创建时间
     private Date createTime;
     //修改时间
     private Date updateTime;
+
+    /**
+     * 非数据库字段
+     */
+    //分类名称
+    private String categoryName;
 
 
 }

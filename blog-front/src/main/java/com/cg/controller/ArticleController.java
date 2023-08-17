@@ -78,8 +78,8 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/punish")
-    public ResponseResult AddArticle(Articles articles){
-        return null;
+    public ResponseResult AddArticle(@RequestBody Articles articles){
+        return articleService.AddArticle(articles);
     }
 
 
