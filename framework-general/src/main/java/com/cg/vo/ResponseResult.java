@@ -1,6 +1,6 @@
 package com.cg.vo;
 
-import com.cg.enums.HttpCodeEnum;
+import com.cg.enums.HttpCode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
@@ -13,8 +13,8 @@ public class ResponseResult<T> implements Serializable {
     private T data;
 
     public ResponseResult() {
-        this.code = HttpCodeEnum.SUCCESS.getCode();
-        this.msg = HttpCodeEnum.SUCCESS.getMessage();
+        this.code = HttpCode.SUCCESS.getCode();
+        this.msg = HttpCode.SUCCESS.getMsg();
     }
 
     public ResponseResult(Integer code, T data) {
@@ -47,26 +47,26 @@ public class ResponseResult<T> implements Serializable {
     }
 
     public static ResponseResult okResult(Object data) {
-        ResponseResult result = setAppHttpCodeEnum(HttpCodeEnum.SUCCESS, HttpCodeEnum.SUCCESS.getMessage());
+        ResponseResult result = setAppHttpCodeEnum(HttpCode.SUCCESS, HttpCode.SUCCESS.getMsg());
         if(data!=null) {
             result.setData(data);
         }
         return result;
     }
 
-    public static ResponseResult errorResult(HttpCodeEnum enums){
-        return setAppHttpCodeEnum(enums,enums.getMessage());
+    public static ResponseResult errorResult(HttpCode enums){
+        return setAppHttpCodeEnum(enums,enums.getMsg());
     }
 
-    public static ResponseResult errorResult(HttpCodeEnum enums, String msg){
+    public static ResponseResult errorResult(HttpCode enums, String msg){
         return setAppHttpCodeEnum(enums,msg);
     }
 
-    public static ResponseResult setAppHttpCodeEnum(HttpCodeEnum enums){
-        return okResult(enums.getCode(),enums.getMessage());
+    public static ResponseResult setAppHttpCodeEnum(HttpCode enums){
+        return okResult(enums.getCode(),enums.getMsg());
     }
 
-    private static ResponseResult setAppHttpCodeEnum(HttpCodeEnum enums, String msg){
+    private static ResponseResult setAppHttpCodeEnum(HttpCode enums, String msg){
         return okResult(enums.getCode(),msg);
     }
 

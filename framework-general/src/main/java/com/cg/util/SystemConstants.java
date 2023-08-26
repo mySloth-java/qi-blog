@@ -15,7 +15,7 @@ public final class SystemConstants {
     //redis文章浏览量
     public static final String ARTICLE_VIEW = "article:view:";
 
-    public static final String USER_TOKEN = "user:token:";
+    public static final String USER_INFO = "user:info:";
 
     //过期时间
     public static final Integer EXPIRE_DAY = 7;

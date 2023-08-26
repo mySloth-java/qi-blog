@@ -4,12 +4,15 @@ import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.crypto.KeyUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.json.JSONUtil;
 import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.JWTUtil;
 import com.cg.dto.UserDTO;
 import com.cg.entity.User;
+import com.cg.enums.HttpCode;
 import com.cg.mapper.UserDao;
 import com.cg.service.UserService;
+import com.cg.util.GlobalException;
 import com.cg.util.TokenUtil;
 import com.cg.vo.LoginUser;
 import com.cg.vo.ResponseResult;
@@ -19,6 +22,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,7 +34,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static com.cg.util.SystemConstants.EXPIRE_DAY;
-import static com.cg.util.SystemConstants.USER_TOKEN;
+import static com.cg.util.SystemConstants.USER_INFO;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -75,10 +79,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.put("info",principal);
         userInfo.put("token",token);
 
-        //6、以用户Id为key，token为value存储redis中，并设置过期时间
-        stringRedisTemplate.opsForValue().set(USER_TOKEN+id,token,EXPIRE_DAY, TimeUnit.DAYS);
+        //6、以用户Id为key，用户信息为value存储redis中，并设置过期时间
+        String info = JSONUtil.toJsonPrettyStr(principal);
+        stringRedisTemplate.opsForValue().set(USER_INFO+id,info,EXPIRE_DAY, TimeUnit.DAYS);
 
         return ResponseResult.okResult(userInfo);
+    }
+
+    /**
+     * 退出
+     * @return
+     */
+    @Override
+    public ResponseResult Logout() {
+        //1、当访问接口时，肯定会进入Token拦截器，根据token解析出用户Id
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LoginUser principal = (LoginUser) authentication.getPrincipal();
+        String id = principal.getUser().getId();
+
+        //2、根据Id删除Redis缓存
+        Boolean delete = stringRedisTemplate.opsForValue().getOperations().delete(USER_INFO + id);
+        if(!delete){
+            throw new GlobalException(HttpCode.DELETE_ERROR);
+        }
+
+        return ResponseResult.okResult(200,"删除成功!");
     }
 
     /**

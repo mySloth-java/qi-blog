@@ -6,4 +6,6 @@ import com.cg.vo.ResponseResult;
 public interface UserService {
 
     ResponseResult Login(UserDTO userDTO);
+
+    ResponseResult Logout();
 }
