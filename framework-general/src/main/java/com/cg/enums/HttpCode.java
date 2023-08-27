@@ -10,13 +10,20 @@ public enum HttpCode {
     /**
      * 用户模块
      */
+    //登陆
     PASSWORD_ERROR(4001,"用户名或者密码错误"),
     NOT_LOGIN(4002,"请登录后访问"),
     IDENTIFY_ERROR(4003,"用户认证失败"),
+    TOKEN_ERROR(4008,"Token非法"),
+    LOGIN_ERROR(4009,"登陆失败"),
+    //注册
+    REGISTER_ERROR(4010,"注册失败"),
+
     NOT_POWER(4004,"权限不足，无法访问"),
     USER_EXIST(4006,"用户已经存在"),
+    //退出
     DELETE_ERROR(4007,"删除失败!"),
-    TOKEN_ERROR(4008,"Token非法"),
+
 
 
     //未确定的系统其他错误

@@ -32,5 +32,15 @@ public class UserController {
         return userService.Logout();
     }
 
+    /**
+     * 注册
+     * @param userDTO 用户传输对象
+     * @return
+     */
+    @PostMapping("/register")
+    public ResponseResult Register(@RequestBody UserDTO userDTO){
+        return userService.Register(userDTO);
+    }
+
 
 }

@@ -132,6 +132,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     /**
      * 浏览量增加
+     * TODO SQL同步浏览量
      * @param id 文章标识
      * @return
      */

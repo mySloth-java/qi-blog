@@ -2,6 +2,7 @@ package com.cg.service.impl;
 
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.KeyUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.json.JSONUtil;
@@ -26,6 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -33,8 +35,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static com.cg.util.SystemConstants.EXPIRE_DAY;
-import static com.cg.util.SystemConstants.USER_INFO;
+import static com.cg.util.SystemConstants.*;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -45,6 +46,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
 
@@ -62,9 +65,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .authenticate(usernamePasswordAuthenticationToken);
 
         //2、此时密码校验完，Authentication结果封装给providerManager过滤器完成校验操作，调用UserDetails实现类方法
-        //authenticate的结果为null则表示没有用户 TODO
+        //authenticate的结果为null则表示没有用户
         if(Objects.isNull(authenticate)){
-            throw  new RuntimeException("登陆失败!");
+            throw new GlobalException(HttpCode.LOGIN_ERROR);
         }
 
         //3、校验完的结果为之前返回的LoginUser,强转取出用户Id JWT加密
@@ -107,7 +110,40 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
+     * 注册
+     * TODO validation和ES搜索引擎
+     * @param userDTO 用户传输对象
+     * @return
+     */
+    @Override
+    public ResponseResult Register(UserDTO userDTO) {
+        //1、TODO 参数判空和格式校验
+
+        //2、查询每个参数是否已经被注册过，邮箱、用户名、昵称
+
+
+        //3、对密码进行加密，必须与解密一致，即security中的BCryptPasswordEncoder
+        String ScreePw = bCryptPasswordEncoder.encode(userDTO.getPassword());
+        userDTO.setPassword(ScreePw);
+        userDTO.setId(IdUtil.simpleUUID());
+        //TODO 用户随机名称生成，不唯一，尽可能短点
+        userDTO.setName(USER_NAME+IdUtil.simpleUUID());
+        userDTO.setCreateTime(DateTime.now());
+
+        //4、注册
+        Integer register = userDao.Register(userDTO);
+        if(register == null){
+            throw new GlobalException(HttpCode.REGISTER_ERROR);
+        }
+
+        //5、注册成功添加关键信息到ES引擎中
+
+        return ResponseResult.okResult(register);
+    }
+
+    /**
      * 重写security登陆拦截器查询数据库操作
+     * TODO 权限表添加
      * @param username 上一个拦截器传过来的用户名
      * @return
      * @throws UsernameNotFoundException
@@ -116,9 +152,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //1、查询数据库是否存在，不存在抛出异常
         User login = userDao.Login(username);
-        //TODO 改成自定义全局异常
         if(Objects.isNull(login)){
-            throw new RuntimeException("密码错误");
+            throw new GlobalException(HttpCode.PASSWORD_ERROR);
         }
 
         //2、添加权限表信息

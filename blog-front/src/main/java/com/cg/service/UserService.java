@@ -8,4 +8,6 @@ public interface UserService {
     ResponseResult Login(UserDTO userDTO);
 
     ResponseResult Logout();
+
+    ResponseResult Register(UserDTO userDTO);
 }

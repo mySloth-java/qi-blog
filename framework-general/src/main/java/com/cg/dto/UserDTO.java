@@ -4,10 +4,6 @@ package com.cg.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
 import java.util.Date;
 
 @Data
@@ -24,8 +20,6 @@ public class UserDTO {
     private String name;
     //用户头像地址
     private String img;
-    //身份（0是普通用户，1是管理员）
-    private String type;
     //邮箱
     private String email;
     //创建时间

@@ -1,5 +1,6 @@
 package com.cg.config;
 
+import com.cg.filter.AuthenticationErrorPointer;
 import com.cg.filter.AuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationTokenFilter authenticationTokenFilter;
+    @Autowired
+    private AuthenticationErrorPointer authenticationErrorPointer;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -26,15 +29,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                //匿名才允许访问
+                //匿名访问
                 .antMatchers("/user/login","/user/register").anonymous()
-                //授权与未授权用户都可以访问
-                .antMatchers(HttpMethod.GET,"/article/**","/category/**").permitAll()
-                //授权用户都可以访问
-                .anyRequest().authenticated()
+                //授权访问
+                .antMatchers("/file/**","/article/punish","/article/likeNumber/**",
+                        "/user/logout")
+                                .authenticated()
+                .antMatchers(HttpMethod.POST,"/article").authenticated()
+
+                //所有用户都可以访问
+                .anyRequest().permitAll()
         ;
         //此过滤器是根据token来验证，所以必须要保证此过滤器在登录过滤器之前
         http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+        //添加认证和授权错误处理器
+        http.exceptionHandling()
+                .authenticationEntryPoint(authenticationErrorPointer);
+        //关闭默认注销功能
+//        http.logout().disable();
 
     }
 

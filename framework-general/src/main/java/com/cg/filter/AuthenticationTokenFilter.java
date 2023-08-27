@@ -5,7 +5,9 @@ import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import com.cg.enums.HttpCode;
 import com.cg.util.GlobalException;
+import com.cg.util.WebUtil;
 import com.cg.vo.LoginUser;
+import com.cg.vo.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +25,9 @@ import java.util.Objects;
 
 import static com.cg.util.SystemConstants.USER_INFO;
 
+/**
+ * Token验证过滤器
+ */
 @Component
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
@@ -43,7 +48,12 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         try {
             jwt = JWTUtil.parseToken(token);
         } catch (Exception e) {
-            throw new RuntimeException("Token非法");
+            e.printStackTrace();
+            //创建返回体，转为JSON字符串并调用工具类写入前端
+            ResponseResult errorResult = ResponseResult.errorResult(HttpCode.NOT_LOGIN);
+            String error = JSONUtil.toJsonPrettyStr(errorResult);
+            WebUtil.renderString(response,error);
+            return;
         }
         //TODO 验证密钥以及有效期
         String id = (String)jwt.getPayload("id");
