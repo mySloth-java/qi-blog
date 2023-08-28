@@ -17,4 +17,6 @@ public interface ArticleService {
     ResponseResult UpdatePreviewNumber(Long id);
 
     ResponseResult AddArticle(Articles articles);
+
+    ResponseResult GetPreviewNumber(Long id);
 }

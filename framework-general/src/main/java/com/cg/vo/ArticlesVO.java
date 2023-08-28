@@ -21,11 +21,11 @@ public class ArticlesVO {
     //文章预览图片
     private String img;
     //点赞数
-    private Long likeNumber;
+    private Integer likeNumber;
     //预览数
-    private Long previewNumber;
+    private Integer previewNumber;
     //评论数
-    private Long commentNumber;
+    private Integer commentNumber;
 
     //分类表id
     private Long classifyId;

@@ -13,6 +13,9 @@ public interface ArticlesDao {
     List<Articles> GetArticlesByPage(@Param("pageNum") Integer pageNum,
                                    @Param("pageSize") Integer pageSize);
 
+    //查询所有文章
+    List<Articles> GetArticles();
+
     //文章总数目
     Integer GetArticlesCount();
 
@@ -24,6 +27,9 @@ public interface ArticlesDao {
 
     //添加文章
     Integer AddArticle(Articles articles);
+
+    //批量更新数据
+
 
 
 }

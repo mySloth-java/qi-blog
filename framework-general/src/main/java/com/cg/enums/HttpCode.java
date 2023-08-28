@@ -24,6 +24,11 @@ public enum HttpCode {
     //退出
     DELETE_ERROR(4007,"删除失败!"),
 
+    /**
+     * 文章模块
+     */
+    ARTICLE_ADD_ERROR(5001,"文章添加失败!"),
+
 
 
     //未确定的系统其他错误

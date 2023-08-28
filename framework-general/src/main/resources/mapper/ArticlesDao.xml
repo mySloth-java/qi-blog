@@ -12,6 +12,12 @@
             limit #{pageNum},#{pageSize}
     </select>
 
+    <!--TODO 查询所有文章信息 List<Articles> GetArticles();-->
+    <select id="GetArticles" resultType="com.cg.entity.Articles">
+        select * from articles
+    </select>
+
+
     <!--查询文章数目 Integer GetArticlesCount();-->
     <select id="GetArticlesCount" resultType="integer">
         select count(content) from articles

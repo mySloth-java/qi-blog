@@ -62,6 +62,7 @@ public class ArticleController {
         return articleService.UpdateLikeNumber(id);
     }
 
+
     /**
      * 浏览量增加
      * @param id 文章标识
@@ -82,5 +83,13 @@ public class ArticleController {
         return articleService.AddArticle(articles);
     }
 
-
+    /**
+     * 浏览量查询
+     * @param id
+     * @return
+     */
+    @GetMapping("/previewNumber/{id}")
+    public ResponseResult GetPreviewNumber(@PathVariable("id") Long id){
+        return articleService.GetPreviewNumber(id);
+    }
 }

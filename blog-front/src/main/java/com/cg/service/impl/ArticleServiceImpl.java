@@ -3,9 +3,11 @@ package com.cg.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONNull;
 import cn.hutool.json.JSONUtil;
+import com.cg.enums.HttpCode;
 import com.cg.mapper.ArticlesDao;
 import com.cg.entity.Articles;
 import com.cg.service.ArticleService;
+import com.cg.util.GlobalException;
 import com.cg.vo.ArticlesVO;
 import com.cg.vo.PageVO;
 import com.cg.vo.ResponseResult;
@@ -132,7 +134,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     /**
      * 浏览量增加
-     * TODO SQL同步浏览量
      * @param id 文章标识
      * @return
      */
@@ -153,10 +154,15 @@ public class ArticleServiceImpl implements ArticleService {
         //
         Integer integer = articlesDao.AddArticle(articles);
         if(integer == null){
-            //TODO 抛出全局异常
+            throw new GlobalException(HttpCode.ARTICLE_ADD_ERROR);
         }
 
         return ResponseResult.okResult(integer);
+    }
+
+    @Override
+    public ResponseResult GetPreviewNumber(Long id) {
+        return null;
     }
 
 
