@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ArticlesDao {
@@ -29,7 +30,10 @@ public interface ArticlesDao {
     Integer AddArticle(Articles articles);
 
     //批量更新数据
+    Integer UpdatePreview(@Param("preview") List<Map<Long,Integer>> preview);
 
+    //更新
+    Integer Update(@Param("id") Long id,@Param("preview") Integer preview);
 
 
 }

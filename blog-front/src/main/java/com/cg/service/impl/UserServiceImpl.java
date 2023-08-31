@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String ScreePw = bCryptPasswordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(ScreePw);
         userDTO.setId(IdUtil.simpleUUID());
-        //TODO 用户随机名称生成，不唯一，尽可能短点
+        //TODO 名字长度简化
         userDTO.setName(USER_NAME+IdUtil.simpleUUID());
         userDTO.setCreateTime(DateTime.now());
 

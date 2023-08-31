@@ -7,41 +7,57 @@
     <!--TODO 分页查询文章 List<Articles> GetArticlesByPage(@Param("pageNum") Integer pageNum,
                                    @Param("pageSize") Integer pageSize);-->
     <select id="GetArticlesByPage" resultType="com.cg.entity.Articles">
-        select * from articles
-            order by top_flag DESC
-            limit #{pageNum},#{pageSize}
+        SELECT * FROM articles
+            ORDER BY top_flag DESC
+            LIMIT #{pageNum},#{pageSize}
     </select>
 
     <!--TODO 查询所有文章信息 List<Articles> GetArticles();-->
     <select id="GetArticles" resultType="com.cg.entity.Articles">
-        select * from articles
+        SELECT * FROM articles
     </select>
 
 
     <!--查询文章数目 Integer GetArticlesCount();-->
     <select id="GetArticlesCount" resultType="integer">
-        select count(content) from articles
+        SELECT count(content) FROM articles
     </select>
 
     <!--TODO 查询文章详情 Articles GetArticleById(@Param("id") Long id);-->
     <select id="GetArticleById" resultType="com.cg.entity.Articles">
-        select *
-            from articles
-        where id = #{id}
+        SELECT *
+            FROM articles
+        WHERE id = #{id}
     </select>
 
     <!--查询所有分类id List<Articles> GetCategoryIds();-->
     <select id="GetCategoryIds" resultType="integer">
-        select DISTINCT classify_id from articles
+        SELECT DISTINCT classify_id FROM articles
     </select>
 
     <!--添加文章 Integer AddArticle(Articles articles);-->
     <insert id="AddArticle">
-        insert into articles
+        INSERT INTO articles
             (title, summarize, content, img,
              create_time, update_time,
              classify_id, user_id)
-        values (#{title},#{summarize},#{content},#{img},now(),now(),#{classifyId},#{userId})
+        VALUES (#{title},#{summarize},#{content},#{img},now(),now(),#{classifyId},#{userId})
     </insert>
+
+    <!--批量更新浏览量数据 Integer UpdatePreview(Map<Long,Integer> preview);-->
+    <update id="UpdatePreview">
+        <foreach collection="preview" item="entry" separator=";">
+            UPDATE articles
+            SET preview_number = preview_number + #{entry.value}
+            WHERE id = #{entry.key}
+        </foreach>
+    </update>
+
+    <!--修改文章 Integer Update(@Param("id") Long id,@Param("preview") Integer preview);-->
+    <update id="Update">
+        UPDATE articles
+            set preview_number = #{preview}
+            WHERE id = #{id}
+    </update>
 
 </mapper>

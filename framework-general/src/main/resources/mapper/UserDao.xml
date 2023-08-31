@@ -11,8 +11,8 @@
 
     <!--注册用户 Integer Register(UserDTO userDTO);-->
     <insert id="Register">
-        insert into users_tab (id,account,password,name,create_time)
-            values (#{id},#{account},#{password},#{name},#{createTime})
+        insert into users_tab (id,account,password,name,create_time,email)
+            values (#{id},#{account},#{password},#{name},#{createTime},#{email})
     </insert>
 
 </mapper>

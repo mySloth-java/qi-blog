@@ -25,6 +25,7 @@ public class ArticleController {
 
     /**
      * 热门文章查询
+     * TODO
      * @return
      */
     @GetMapping("/hot")
@@ -44,6 +45,7 @@ public class ArticleController {
 
     /**
      * 文章修改
+     * TODO
      * @param articles 文章实体
      * @return
      */
@@ -54,6 +56,7 @@ public class ArticleController {
 
     /**
      * 点赞数增加
+     * TODO
      * @param id 文章标识
      * @return
      */
@@ -85,6 +88,7 @@ public class ArticleController {
 
     /**
      * 浏览量查询
+     * TODO
      * @param id
      * @return
      */

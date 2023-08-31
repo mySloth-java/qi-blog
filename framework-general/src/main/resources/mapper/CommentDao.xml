@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cg.mapper.CommentDao">
+
+    <!--TODO 分页查询评论列表 List<Comments> GetCommentByPage(Long articleId, Integer pageNum, Integer pageSize);-->
+    <select id="GetCommentByPage" resultType="com.cg.entity.Comments">
+        SELECT * FROM comments
+            WHERE article_id = #{articleId}
+        LIMIT #{pageNum},#{pageSize}
+    </select>
+</mapper>

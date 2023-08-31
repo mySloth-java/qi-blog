@@ -27,8 +27,13 @@ public enum HttpCode {
     /**
      * 文章模块
      */
-    ARTICLE_ADD_ERROR(5001,"文章添加失败!"),
+    ARTICLE_ADD_ERROR(4101,"文章添加失败!"),
+    ARTICLE_PAGE_ERROR(4102,"分页参数错误"),
 
+    /**
+     * 评论模块
+     */
+    COMMENT_PAGE_ERROR(4201,"分页参数错误"),
 
 
     //未确定的系统其他错误

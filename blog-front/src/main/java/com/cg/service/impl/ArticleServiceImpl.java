@@ -21,6 +21,8 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.cg.enums.HttpCode.ARTICLE_PAGE_ERROR;
+import static com.cg.enums.HttpCode.COMMENT_PAGE_ERROR;
 import static com.cg.util.SystemConstants.*;
 
 
@@ -52,6 +54,9 @@ public class ArticleServiceImpl implements ArticleService {
 
         //2、没有缓存查询数据库并添加到缓存中
         pageNum = (pageNum - 1) * pageSize;
+        if(pageNum < 0){
+            throw new GlobalException(ARTICLE_PAGE_ERROR);
+        }
         List<Articles> articles = articlesDao.GetArticlesByPage(pageNum, pageSize);
 
 //        for (Articles article :

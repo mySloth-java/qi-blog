@@ -18,7 +18,7 @@ public class UserController {
      * @param userDTO 用户信息传输对象，账户、密码
      * @return
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseResult Login(@RequestBody UserDTO userDTO){
         return userService.Login(userDTO);
     }
