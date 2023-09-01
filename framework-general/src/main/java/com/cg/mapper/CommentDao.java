@@ -1,5 +1,6 @@
 package com.cg.mapper;
 
+import com.cg.dto.CommentDTO;
 import com.cg.entity.Comments;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,4 +13,7 @@ public interface CommentDao {
     List<Comments> GetCommentByPage(@Param("articleId") Long articleId,
                                     @Param("pageNum") Integer pageNum,
                                     @Param("pageSize") Integer pageSize);
+
+    //添加评论
+    Integer AddComment(CommentDTO commentDTO);
 }

@@ -1,11 +1,10 @@
 package com.cg.controller;
 
+import com.cg.dto.CommentDTO;
 import com.cg.service.CommentService;
 import com.cg.vo.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/comment")
@@ -25,6 +24,17 @@ public class CommentController {
     public ResponseResult GetCommentByPage(Long articleId,Integer pageNum,Integer pageSize){
         return commentService.GetCommentByPage(articleId,pageNum,pageSize);
     }
+
+    /**
+     * 添加评论
+     * @param commentDTO 传输DTO
+     * @return
+     */
+    @PostMapping
+    public ResponseResult AddComment(@RequestBody CommentDTO commentDTO){
+        return commentService.AddComment(commentDTO);
+    }
+
 
 
 

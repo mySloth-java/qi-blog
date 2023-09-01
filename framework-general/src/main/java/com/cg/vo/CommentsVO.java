@@ -38,4 +38,23 @@ public class CommentsVO {
     private String name;//用户信息名称
     private String toName;//回复的用户名
     private List<CommentsVO> children;//子评论
+
+    @Override
+    public String toString() {
+        return "CommentsVO{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", parentId=" + parentId +
+                ", articleId=" + articleId +
+                ", userId='" + userId + '\'' +
+                ", toCommentId=" + toCommentId +
+                ", toUserId='" + toUserId + '\'' +
+                ", likeNumber=" + likeNumber +
+                ", topFlag='" + topFlag + '\'' +
+                ", createTime=" + createTime +
+                ", name='" + name + '\'' +
+                ", toName='" + toName + '\'' +
+                ", children=" + children +
+                '}';
+    }
 }

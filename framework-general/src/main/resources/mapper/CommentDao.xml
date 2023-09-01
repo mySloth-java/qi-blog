@@ -10,4 +10,12 @@
             WHERE article_id = #{articleId}
         LIMIT #{pageNum},#{pageSize}
     </select>
+
+    <!--添加评论 Integer AddComment(CommentDTO commentDTO);-->
+    <insert id="AddComment">
+        INSERT INTO comments
+            (content,parent_id,article_id,user_id,to_comment_id,to_user_id,type,create_time)
+            VALUES (#{content},#{parentId},#{articleId}
+            ,#{userId},#{toCommentId},#{toUserId},#{type},now())
+    </insert>
 </mapper>

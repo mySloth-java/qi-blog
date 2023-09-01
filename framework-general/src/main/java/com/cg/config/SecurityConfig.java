@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/file/**","/article/punish","/article/likeNumber/**",
                         "/user/logout")
                                 .authenticated()
-                .antMatchers(HttpMethod.POST,"/article").authenticated()
+                .antMatchers(HttpMethod.POST,"/article","/comment").authenticated()
 
                 //所有用户都可以访问
                 .anyRequest().permitAll()

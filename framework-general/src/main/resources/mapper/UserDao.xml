@@ -4,15 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cg.mapper.UserDao">
 
-    <!--security登陆验证 User Login(String username);-->
+    <!--security登陆验证 User Login(@Param("name") String name);-->
     <select id="Login" resultType="com.cg.entity.User">
-        select * from users_tab where account = #{username}
+        SELECT * FROM users_tab
+                 WHERE account = #{name}
     </select>
 
     <!--注册用户 Integer Register(UserDTO userDTO);-->
     <insert id="Register">
-        insert into users_tab (id,account,password,name,create_time,email)
-            values (#{id},#{account},#{password},#{name},#{createTime},#{email})
+        INSERT INTO users_tab (id,account,password,name,create_time,email)
+            VALUES (#{id},#{account},#{password},#{name},#{createTime},#{email})
     </insert>
+
+    <!--根据Id查询用户信息 List<UserVO> GetUserById(@Param("id") String id);-->
+    <select id="GetUserById" resultType="com.cg.entity.User">
+        SELECT * FROM users_tab
+            WHERE id = #{id}
+    </select>
 
 </mapper>

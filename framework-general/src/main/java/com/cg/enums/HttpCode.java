@@ -34,6 +34,8 @@ public enum HttpCode {
      * 评论模块
      */
     COMMENT_PAGE_ERROR(4201,"分页参数错误"),
+    COMMENT_NOT_USERID(4202,"该用户不存在"),
+    COMMENT_ADD_ERROR(4203,"文章添加失败"),
 
 
     //未确定的系统其他错误
